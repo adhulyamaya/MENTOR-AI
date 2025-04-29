@@ -107,3 +107,16 @@ Here is a list of available URLs for your project:
 ---
 
 **Note**: Replace `127.0.0.1:8000` with your actual server URL 
+
+
+
+Challenges Faced During This Project
+Limited Access to AI Services:
+experimented with multiple AI platforms, including DeepAI, OpenAI, and Hugging Face. 
+However, using only the free tiers posed significant limitations in terms of API usage,
+ model access, and request volume. Balancing functionality within these constraints was a major challenge.
+
+Restrictions with D-ID API for Avatars:
+While integrating avatars using the D-ID API, encountered limitations on the free tier,
+ such as small video size allowances and restrictions on input length (minimum sentences only). 
+ These constraints affected the quality and flexibility of avatar generation
