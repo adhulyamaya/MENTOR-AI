@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register | AI-Powered User Profile{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card shadow-lg p-4" style="width: 450px; border-radius: 12px; background-color: #C2EFD4;">
+        <h3 class="text-center mb-3" style="color:#224F40;">Create Your Account</h3>
+
+        <!-- Django Messages -->
+        {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'user_app:register' %}" novalidate>
+            {% csrf_token %}
+            
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label for="username" class="form-label fw-bold">
+                    <i class="ri-user-line"></i> Full Name
+                </label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="John Doe" required>
+                <small class="text-danger" id="usernameError"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold">
+                    <i class="ri-mail-line"></i> Email Address
+                </label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="example@mail.com" required>
+                <small class="text-danger" id="emailError"></small>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label for="phone" class="form-label fw-bold">
+                    <i class="ri-phone-line"></i> Phone Number
+                </label>
+                <input type="tel" class="form-control" id="phone" name="phone" pattern="^\+?\d{10,15}$">
+                <small class="text-danger" id="phoneError"></small>
+            </div>
+
+            {% comment %} <!-- Membership Type -->
+            <div class="mb-3">
+                <label for="membership_type" class="form-label fw-bold">
+                    <i class="ri-vip-crown-line"></i> Membership Type
+                </label>
+                <select class="form-select" id="membership_type" name="membership_type" required>
+                    <option value="">Select</option>
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                    <option value="Enterprise">Enterprise</option>
+                </select>
+                <small class="text-danger" id="membershipError"></small>
+            </div> {% endcomment %}
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">
+                    <i class="ri-lock-line"></i> Password
+                </label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <small class="text-danger" id="passwordError"></small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label fw-bold">
+                    <i class="ri-lock-unlock-line"></i> Confirm Password
+                </label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                <small class="text-danger" id="confirmPasswordError"></small>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                <label class="form-check-label" for="terms">I agree to the <a href="{% url 'user_app:terms' %}">Terms & Conditions</a> and <a href="{% url 'user_app:privacy_policy' %}">Privacy Policy</a>.</label>
+                <small class="text-danger" id="termsError"></small>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+                <button type="submit" class="btn text-white fw-bold" style="background-color:#224F40">
+                    <i class="ri-user-add-line"></i> Sign Up
+                </button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="{% url 'user_app:login' %}" style="color: #224F40; font-weight: bold;">Login</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Live Form Validation -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const phone = document.getElementById("phone");
+        const membership = document.getElementById("membership_type");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm_password");
+        const terms = document.getElementById("terms");
+        const submitBtn = document.querySelector("button[type='submit']");
+
+        // Error message elements
+        const usernameError = document.getElementById("usernameError");
+        const emailError = document.getElementById("emailError");
+        const phoneError = document.getElementById("phoneError");
+        const membershipError = document.getElementById("membershipError");
+        const passwordError = document.getElementById("passwordError");
+        const confirmPasswordError = document.getElementById("confirmPasswordError");
+        const termsError = document.getElementById("termsError");
+
+        // Regular expressions for validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\+?\d{10,15}$/;
+        const strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+        // Validation function
+        function validateForm() {
+            let isValid = true;
+
+            // Validate Username
+            if (username.value.trim().length < 3) {
+                usernameError.textContent = "Name must be at least 3 characters";
+                isValid = false;
+            } else {
+                usernameError.textContent = "";
+            }
+
+            // Validate Email
+            if (!emailRegex.test(email.value.trim())) {
+                emailError.textContent = "Enter a valid email";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Validate Phone
+            if (phone.value && !phoneRegex.test(phone.value.trim())) {
+                phoneError.textContent = "Enter a valid phone number";
+                isValid = false;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // Validate Membership
+            if (!membership.value) {
+                membershipError.textContent = "Select a membership type";
+                isValid = false;
+            } else {
+                membershipError.textContent = "";
+            }
+
+            // Validate Password
+            if (!strongPasswordRegex.test(password.value)) {
+                passwordError.textContent = "Password must be 8+ characters, include uppercase, lowercase, number & symbol";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
+            // Validate Confirm Password
+            if (password.value !== confirmPassword.value) {
+                confirmPasswordError.textContent = "Passwords do not match";
+                isValid = false;
+            } else {
+                confirmPasswordError.textContent = "";
+            }
+
+            // Validate Terms
+            if (!terms.checked) {
+                termsError.textContent = "You must agree to the terms and conditions";
+                isValid = false;
+            } else {
+                termsError.textContent = "";
+            }
+
+            submitBtn.disabled = !isValid;
+        }
+
+        // Event Listeners
+        [username, email, phone, membership, password, confirmPassword, terms].forEach(field => {
+            field.addEventListener("input", validateForm);
+        });
+    });
+</script>
+
+{% endblock %}

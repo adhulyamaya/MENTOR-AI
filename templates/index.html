@@ -1,0 +1,495 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Virtue Mentor{% endblock %}
+
+{% block content %}
+
+<!-- CSS for Styling -->
+<style>
+    .carousel-item img {
+        height: 450px;
+        object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+        .carousel-item img {
+            height: 300px;
+        }
+    }
+
+    .banner {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background: #C2EFD4;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        height:550px;
+    }
+
+    .banner-item {
+        flex: 1;  /* Ensures equal width for each item */
+        padding: 15px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .banner h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: #224F34;
+    }
+
+    .banner p {
+        font-size: 16px;
+        margin-bottom: 15px;
+        color: #224F34;
+    }
+
+
+    .banner-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items:center;
+        width: 50%;
+        
+    }
+
+    .banner-left h2 {
+        color: #267144;
+        font-size: 40px;
+    }
+
+    .banner-left p {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+.banner-left-btn {
+    background-color: #267144;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    width: fit-content;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.banner-left-btn:hover {
+    background-color: #6BC785;
+}
+
+.banner-left-head{
+    padding-bottom:10px;
+}
+
+.banner-left-para{
+    padding-bottom:10px;
+}
+
+.banner-left-btn{
+    padding-bottom:10px;
+    display:flex;
+    justify-content:center;
+}
+
+
+
+.banner-right {
+    background-color: #6BC785;
+    width: 30%;
+    border-radius: 40px 10px 40px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    text-align: center;
+    position: relative; /* Needed for absolute positioning of dots */
+}
+
+.banner-right::before,
+.banner-right::after {
+    content: ". . . . . \A. . . . . \A. . . . . \A . . . . ."; /* Adds 4 rows of dots */
+    white-space: pre; /* Keeps dots on separate lines */
+    color: darkgreen; /* Sets the color */
+    font-size: 18px; /* Adjusts dot size */
+    font-weight: bolder;
+    position: absolute;
+}
+
+.banner-right::before {
+    bottom: 20px;
+    left: 20px;
+}
+
+.banner-right::after {
+    top: 20px;
+    right: 20px;
+}
+
+.branding-contact {
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    border-color:#6BC785;
+    color: #267144;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* About Us Section */
+.about-us h2 {
+    font-size: 32px;
+}
+
+.about-us p {
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+/* Login Section */
+.login-container {
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.login-container h2 {
+    text-align: center;
+}
+
+.contact-info {
+    background-color: #333333;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Feature Section */
+.feature-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.feature-row img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Testimonials */
+.testimonial-card {
+    background-color:#267144!important;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.testimonial-card p {
+    font-size: 1rem;
+}
+
+</style>
+
+<audio id="bg-music" autoplay loop>
+    <source src="{% static 'music/m2.mp3' %}" type="audio/mp3">
+</audio>
+
+<!-- Play/Pause Button -->
+<button onclick="toggleMusic()" style="position: fixed; bottom: 20px; right: 20px; padding: 5px; border-radius: 5px; cursor: pointer;">
+    <i id="music-icon" class="ri-play-fill"></i>
+</button>
+
+<script>
+    function toggleMusic() {
+        var audio = document.getElementById('bg-music'); // Updated to match the audio element ID
+        var icon = document.getElementById('music-icon');
+        
+        if (audio.paused) {
+            audio.play();  // Play audio
+            icon.classList.remove('ri-play-fill');  // Remove play icon
+            icon.classList.add('ri-pause-fill');  // Add pause icon
+        } else {
+            audio.pause();  // Pause audio
+            icon.classList.remove('ri-pause-fill');  // Remove pause icon
+            icon.classList.add('ri-play-fill');  // Add play icon
+        }
+    }
+</script>
+
+
+
+<!-- Banner Section -->
+<div class="banner">
+    <div class="banner-left">
+        <div class="banner-left-head">
+            <h2>Transforming Words into Voice, Ideas into Reality!</h2>
+        </div>
+
+        <div class="banner-left-para">
+            <p class="lead">Experience AI-powered explanations with voice and avatars for an engaging, interactive learning journey.</p>
+        </div>
+
+        <div class="banner-left-btn">
+             <a href="{% url 'user_app:login' %}" class="banner-left-btn">Explore Now</a>
+        </div>
+
+    </div>
+    <div class="banner-right">
+        <img src="{% static 'images/girl.png' %}" alt="Virtue Mentor" style="width: 100%; border-radius: 15px;">
+    </div>
+
+</div>
+
+<!-- About Us and Login Section -->
+<div class="container mt-5">
+    <div class="row align-items-center">
+
+
+        <!-- Right Side - About Us Content -->
+        <div class="col-md-12">
+            <h2><i class="ri-profile-line icon"></i> About Us</h2>
+            <p class="lead">
+                At <strong>Virtue Mentor AI</strong>, we are committed to empowering individuals to take charge of their learning. Our mission is to make education simple, effective, and accessible to everyone. Whether you're a student, educator, or professional, our platform offers tailored solutions to fit your needs, ensuring that you get the most out of your learning experience.
+            </p>
+            <p class="lead">
+                We believe that technology and AI-driven insights can transform the way people learn. Our platform provides interactive and engaging learning experiences, helping users grasp complex concepts effortlessly through personalized content, voice-based explanations, and AI avatars. With a focus on <strong>active learning</strong>, we aim to enhance engagement and retention, allowing you to master subjects at your own pace.
+            </p>
+
+            <h3>What Sets Us Apart:</h3>
+            <ul>
+                <li><strong>AI-Powered Personalization:</strong> Our platform adapts to each user's unique learning style, identifying areas for improvement and suggesting customized learning paths that cater to individual needs.</li>
+                <li><strong>Interactive Tools:</strong> We provide a variety of tools, from quizzes and assessments to AI-driven feedback, making learning more dynamic and interactive.</li>
+                <li><strong>Voice-Based Explanations:</strong> For better understanding, our AI avatars can offer voice-based explanations of difficult topics, simplifying complex concepts with clear and concise language.</li>
+                <li><strong>Gamification:</strong> Our platform incorporates elements of gamification to keep you motivated throughout your learning journey, turning education into a fun and rewarding experience.</li>
+            </ul>
+            <p class="lead">
+                We believe that learning should never be limited by location, schedule, or personal circumstances. That's why <strong>Virtue Mentor AI</strong> ensures that its platform is mobile-friendly, allowing users to learn on-the-go, anytime, and anywhere.
+            </p>
+
+            <p class="lead">
+                Whether you're preparing for an exam, upskilling for your career, or simply exploring new areas of knowledge, <strong>Virtue Mentor AI</strong> is designed to support your growth. We make learning engaging, enjoyable, and effective—helping you succeed in your academic or professional pursuits.
+            </p>
+
+            <h3>Our Vision:</h3>
+            <p class="lead">
+                We strive to create a global community of learners, educators, and professionals who can leverage the power of AI to advance their knowledge. Our platform aims to democratize education by breaking down barriers and providing access to top-tier learning resources for everyone, regardless of background or location.
+            </p>
+
+            <p class="lead">
+                Join the <strong>Virtue Mentor AI</strong> community and experience a smarter, more personalized way of learning. Let us help you unlock your full potential!
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<div class="py-5 px-3 d-flex flex-coloumn">
+    <div>
+    
+    <h2><strong>At Virtue Mentor AI, we are dedicated to:</strong></h2>
+            <ul class="list-unstyled">
+                <li> <i class="ri-checkbox-circle-fill"></i> <strong>Bridging the gap</strong> between learning and mastery with AI-driven tutoring.</li>
+                <li> <i class="ri-checkbox-circle-fill"></i> <strong>Delivering premium, adaptive educational content</strong> tailored to diverse learning styles.</li>
+                <li> <i class="ri-checkbox-circle-fill"></i> <strong>Making learning accessible</strong> to everyone, anytime, anywhere, without barriers.</li>
+                <li> <i class="ri-checkbox-circle-fill"></i> <strong>Empowering students and professionals</strong> with cutting-edge tools for enhanced knowledge retention.</li>
+            </ul>
+
+            <p class="lead">Join us on this journey and unlock a smarter way to learn!</p>
+    </div>
+    
+     <div class="col-md-4 text-center">
+            <img src="{% static 'images/11.jpg' %}" alt="Virtue Mentor AI" class="img-fluid rounded">
+        </div>
+</div>
+
+<!-- Feature Section -->
+<div class="container mt-">
+    <!-- Custom Health Plans -->
+    <div class="row feature-row">
+        <div class="col-md-4">
+            <img src="{% static 'images/plan2.jpg' %}" alt="Custom Health Plans" class="img-fluid" style="width: 60%; height: auto; object-fit: cover;">
+
+
+        </div>
+        <div class="col-md-8">
+ 
+
+    <h3>Benefits of Our Custom Plans:</h3>
+    <ul>
+        <li>Tailored learning experience that matches your specific goals</li>
+        <li>Better retention and faster learning by focusing on your unique needs</li>
+        <li>Increased motivation and accountability through structured yet flexible schedules</li>
+        <li>Access to a wide variety of resources, from interactive lessons to expert webinars</li>
+        <li>Improved results with continuous feedback and expert guidance</li>
+    </ul>
+
+    <p class="lead">Whether you're looking to gain new skills, boost your career prospects, or achieve personal milestones, our custom learning plans will help you achieve your goals effectively and efficiently.</p>
+
+    
+</div>
+ </div>
+
+
+    <!-- Monitor Your Progress -->
+    <div class="row feature-row">
+    
+    <h2>What We Offer:</h2>
+    <ul>
+        <li><strong>Personalized Assessments:</strong> We begin with a detailed assessment to understand your strengths, weaknesses, and learning preferences.</li>
+        <li><strong>Customized Curriculum:</strong> Based on your assessment, we create a curriculum tailored to your goals, whether it's for professional growth, academic success, or personal development.</li>
+        <li><strong>Flexible Learning Paths:</strong> Whether you prefer self-paced learning, scheduled lessons, or a mix of both, our plans are flexible to fit your schedule.</li>
+        <li><strong>Expert Guidance:</strong> Get access to top-notch educators and mentors who guide you throughout your learning journey, offering feedback and support when needed.</li>
+        <li><strong>Real-Time Progress Tracking:</strong> Track your progress through our dashboard and make adjustments to your learning path whenever necessary.</li>
+    </ul>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="container mt-5">
+    <h2 class="text-center" ><i class="ri-star-line icon"></i> What Our Users Say</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="testimonial-card" >
+                <p class="lead" style="color:white">"Virtue Mentor has completely changed the way I learn and grow professionally!"</p>
+                <footer><i class="ri-user-line icon"></i> Agi</footer>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <p class="lead" style="color:white">"The AI-powered learning explanations are fantastic and truly engaging."</p>
+                <footer><i class="ri-user-line icon"></i> John Doe</footer>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <p class="lead" style="color:white">"Highly recommended for anyone looking for a smarter learning experience."</p>
+                <footer><i class="ri-user-line icon"></i> Emily</footer>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Our Partners -->
+<div class="container my-5">
+    <h2 class="text-center fw-bold">Our Trusted Partners</h2>
+    <p class="text-center lead">We collaborate with leading educational institutions and technology companies.</p>
+    <div class="d-flex justify-content-center align-items-center">
+        <img src="{% static 'images/partner1.png' %}" alt="Partner 1" class="mx-3" width="120">
+        <img src="{% static 'images/partner2.png' %}" alt="Partner 2" class="mx-3" width="120">
+        <img src="{% static 'images/partner3.png' %}" alt="Partner 3" class="mx-3" width="120">
+    </div>
+</div>
+
+<!-- FAQs -->
+<div class="container my-5" style="padding: 40px; border-radius: 12px;">
+    <h2 class="text-center fw-bold">Frequently Asked Questions</h2>
+    <p class="text-center text-muted mt-3 lead">Find answers to the most common questions regarding our AI-powered learning platform.</p>
+    
+    <div class="accordion mt-4" id="faqAccordion">
+        
+        <div class="accordion-item" style="background-color: #267144; border: none;">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" style="background-color: #267144; ; color: white;">
+                    How does AI-powered learning work?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4; color: black;">
+                    Our AI-driven platform leverages advanced algorithms to analyze your learning progress, adjusting content to your specific needs and preferences. This personalized approach ensures efficient and effective learning, optimizing your experience.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #267144; ; border: none;">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" style="background-color: #267144; ; color: white;">
+                    Is Virtue Mentor AI free to use?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4; color: black;">
+                    Virtue Mentor offers both free and premium subscription plans. The free plan provides access to basic features, while the premium subscription unlocks advanced tools, unlimited access to AI-generated content, and priority support.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #267144; 4; border: none;">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" style="background-color: #267144; ; color: white;">
+                    What are the benefits of the Premium Plan?
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4; color: black;">
+                    The Premium Plan provides access to advanced AI features, including personalized learning recommendations, priority email and chat support, watermark-free content, unlimited use of the AI Voice Assistant, and exclusive content creation tools. It’s designed for users who want to fully maximize their learning experience.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #267144; ; border: none;">
+            <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" style="background-color: #267144; color: white;">
+                    How secure is my data with Virtue Mentor?
+                </button>
+            </h2>
+            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4; color: black;">
+                    At Virtue Mentor, we prioritize the privacy and security of our users. All data is encrypted, and we adhere to strict privacy policies to ensure that your personal information and learning data remain confidential and protected.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #267144;  border: none;">
+            <h2 class="accordion-header" id="headingFive">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" style="background-color: #267144; color: white;">
+                    Can I access Virtue Mentor on mobile devices?
+                </button>
+            </h2>
+            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4; color: black;">
+                    Yes, Virtue Mentor is fully responsive and optimized for mobile devices. You can access your learning content and track your progress seamlessly on smartphones and tablets.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item" style="background-color: #267144; ; border: none;">
+            <h2 class="accordion-header" id="headingSix">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" style="background-color: #267144; ; color: white;">
+                    How do I get support if I encounter issues?
+                </button>
+            </h2>
+            <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body" style="background-color:#C2EFD4;color: black;">
+                    We provide multiple channels of support. Premium users receive priority support via email and chat, while all users can access our extensive knowledge base. If needed, our support team is available to assist you with any inquiries or technical issues.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- Call-to-Action Section -->
+<div class="container text-center my-5">
+    <h2 class="fw-bold">Ready to Transform Your Learning Experience?</h2>
+    <p class="lead">Unlock Your Full Potential with Virtue Mentor AI!
+    Join thousands of learners worldwide and experience a smarter, AI-powered way to learn. Whether you're a student, educator, or professional, our cutting-edge platform adapts to your unique learning style, making complex concepts simple and engaging.
+
+    Take the next step toward success—start your journey with Virtue Mentor AI today!.</p>
+    <a href="{% url 'user_app:register' %}" class="btn btn-success btn-lg">Get Started Now</a>
+</div>
+
+{% endblock %}

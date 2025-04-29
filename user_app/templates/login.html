@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Virtue Mentor AI - Login{% endblock %}
+{% block content %}
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light px-4 rounded" style="border-radius: 10px;background-color:#C2EFD4;">
+    <div class="d-flex overflow-hidden w-100 max-w-4xl shadow-lg rounded-lg bg-white">
+        
+        <!-- Left Side - Login Form -->
+        <div class="w-50 p-5 d-flex flex-column align-items-center justify-content-center text-center">
+            <h2 class="text-2xl font-bold text-dark mb-2">Welcome Back</h2>
+            <p class="text-muted mb-4">Log in to Virtue Mentor AI</p>
+
+            <form method="POST" action="{% url 'user_app:login' %}" class="w-100">
+                {% csrf_token %}
+
+                <!-- Email Input -->
+                <div class="position-relative mb-3">
+                    <i class="position-absolute text-muted ri-mail-line" style="left: 7px;  top: 50%; transform: translateY(-50%);"></i>
+                    <input type="email" name="email" id="email" placeholder="Enter your email"
+                        class="form-control ps-4 py-2 border rounded-pill">
+                </div>
+
+                <!-- Password Input -->
+                <div class="position-relative mb-3">
+                    <i class="position-absolute text-muted ri-lock-line" style="left: 7px;  top: 50%; transform: translateY(-50%);"></i>
+                    <input type="password" name="password" id="password" placeholder="Enter your password"
+                        class="form-control ps-4 py-2 border rounded-pill">
+                </div>
+
+                <!-- ✅ Correct Submit Button -->
+                <button type="submit" class="w-100 py-2 text-white fw-semibold rounded-pill text-center d-block"
+                    style="background-color:#224F34; border: none;">
+                    Login
+                </button>
+            </form>
+
+            <!-- Register Link -->
+            <p class="mt-3">
+                New user? 
+                <a href="{% url 'user_app:register' %}" class="fw-bold text-success">
+                    Register here
+                </a>
+            </p>
+        </div>
+
+        <!-- Right Side - Video Content -->
+        <div class="w-50 d-flex align-items-center justify-content-center bg-success text-white rounded-end p-4">
+            <div class="text-center">
+                <h2 class="text-white fw-bold mb-3">Watch & Learn More</h2>
+                <div class="rounded overflow-hidden shadow-lg">
+                    <iframe class="w-100 rounded" style="height: 250px;"
+                        src="https://www.youtube.com/embed/TX9qSaGXFyg?autoplay=1&mute=1" 
+                        frameborder="0" allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

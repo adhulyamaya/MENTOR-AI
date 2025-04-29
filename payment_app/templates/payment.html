@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Select Plan | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="profile_container d-flex flex-column align-items-center py-5" style="border-radius: 20px; background-color: rgb(77, 157, 100);">
+    {% if current_plan %}
+        <p class="text-white mb-4">Your current plan: <span class="fw-bold">{{ current_plan|title }}</span>. You can upgrade to a higher plan below.</p>
+    {% else %}
+        <p class="text-white mb-4">Choose a plan and proceed to payment.</p>
+    {% endif %}
+
+    <div class="profile_holder container">
+        <div class="row align-items-center">
+            <!-- Avatar Section -->
+            <div class="avathar_holder col-md-6 d-flex flex-column justify-content-center align-items-center text-white p-5 rounded-start">
+                <h4 class="fw-bold">Hi {{ first_name }}</h4>
+                <h4 class="fw-bold">Embark on Your AI Learning Journey</h4>
+                <p class="text-muted">AI Enthusiast | Ready to Learn</p>
+            </div>
+
+            <!-- Payment Plan Selection -->
+            <div class="profile_holder-right col-md-6 text-white p-5 rounded-end">
+                <h4 class="mb-4">{% if current_plan %}Upgrade Your Plan{% else %}Select Your Plan{% endif %}</h4>
+                
+                <!-- Basic Plan -->
+                <div class="plan-card mb-3 p-4 bg-white text-dark rounded {% if current_plan == 'basic' %}current-plan{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-bold">Basic Plan</h5>
+                            <p class="mb-0">Essential AI learning features</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="fw-bold">₹499</h5>
+                            {% if current_plan == 'basic' %}
+                                <span class="badge bg-success p-5">Current Plan</span>
+                            {% else %}
+                                <a href="{% url 'payment_app:subscribe' 'basic' %}" class="btn btn-success">
+                                    {% if current_plan %}Downgrade{% else %}Select{% endif %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pro Plan -->
+                <div class="plan-card mb-3 p-4 bg-white text-dark rounded {% if current_plan == 'pro' %}current-plan{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-bold">Pro Plan</h5>
+                            <p class="mb-0">Advanced AI learning tools</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="fw-bold">₹999</h5>
+                            {% if current_plan == 'pro' %}
+                                <span class="badge bg-success p-2">Current Plan</span>
+                            {% elif current_plan == 'premium' %}
+                                <a href="{% url 'payment_app:subscribe' 'pro' %}" class="btn btn-success">Downgrade</a>
+                            {% else %}
+                                <a href="{% url 'payment_app:subscribe' 'pro' %}" class="btn btn-success">
+                                    {% if current_plan %}Upgrade{% else %}Select{% endif %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Premium Plan -->
+                <div class="plan-card mb-3 p-4 bg-white text-dark rounded {% if current_plan == 'premium' %}current-plan{% endif %}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="fw-bold">Premium Plan</h5>
+                            <p class="mb-0">Complete AI learning experience</p>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="fw-bold">₹1499</h5>
+                            {% if current_plan == 'premium' %}
+                                <span class="badge bg-success p-2">Current Plan</span>
+                            {% else %}
+                                <a href="{% url 'payment_app:subscribe' 'premium' %}" class="btn btn-success">
+                                    {% if current_plan %}Upgrade{% else %}Select{% endif %}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                {% if current_plan %}
+                <div class="mt-4 text-center">
+                    <p class="small">
+                        <i class="ri-information-line"></i> 
+                        Changing your plan will take effect immediately. Your new plan will be active as soon as payment is completed.
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .plan-card {
+        transition: transform 0.3s ease;
+        border: 2px solid transparent;
+    }
+    .plan-card:hover {
+        transform: translateY(-5px);
+        border-color: #4CAF50;
+    }
+    .current-plan {
+        border: 2px solid #4CAF50;
+        position: relative;
+    }
+    .current-plan::before {
+        content: "Current";
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background-color: #4CAF50;
+        color: white;
+        padding: 2px 10px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

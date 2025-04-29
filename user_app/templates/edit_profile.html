@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded-4 p-4" style="background-color: #f8f9fa;">
+                <h4 class="fw-bold mb-4" style="color: #6BC785;">
+                    <i class="ri-edit-box-line"></i> Edit Your Profile
+                </h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ user.phone }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="membership_type" class="form-label">Membership Type</label>
+                        <input type="text" class="form-control" id="membership_type" name="membership_type" value="{{ user.membership_type }}">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn" style="background-color: #6BC785; color: white;">
+                            <i class="ri-save-line"></i> Save Changes
+                        </button>
+                        <a href="{% url 'user_app:user_profile' %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

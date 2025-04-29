@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Try for Free | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="try-free-container">
+    <h1>Start Your Free Trial Today!</h1>
+    <p>Experience AI-driven learning for free. No credit card required. Discover how Virtue Mentor AI can transform your learning experience with personalized content, voice-based explanations, and more.</p>
+
+    <div class="trial-benefits">
+        <div class="benefit-item">✔ 7-Day Free Access to AI Learning Tools</div>
+        <div class="benefit-item">✔ No Watermarks on Basic AI Features</div>
+        <div class="benefit-item">✔ Standard Email Support</div>
+        <div class="benefit-item">✔ Explore AI Voice & Avatar Features</div>
+        <div class="benefit-item">✔ Upgrade Anytime to Premium for Enhanced Features</div>
+    </div>
+
+    <h3>Why Choose Virtue Mentor AI?</h3>
+    <p>With AI-powered tools, personalized learning plans, and cutting-edge features, we make mastering new skills easier and more engaging than ever. Whether you are a student aiming for better exam preparation, a professional seeking to upskill, or anyone with a thirst for knowledge, Virtue Mentor AI is here to help you succeed.</p>
+
+    <h4>Get Access to:</h4>
+    <ul>
+        <li><strong>Interactive Learning Modules:</strong> Learn with gamified features and real-time feedback.</li>
+        <li><strong>Personalized Learning Path:</strong> AI adapts content to your learning speed and preferences.</li>
+        <li><strong>AI Voice & Avatar Assistance:</strong> Engage with voice-based explanations and dynamic avatars.</li>
+        <li><strong>Detailed Analytics:</strong> Track your progress and adjust learning strategies with data insights.</li>
+    </ul>
+
+    <p>No hidden fees, no obligations. Simply start your trial and begin your learning journey with Virtue Mentor AI.</p>
+
+    <a href="{% url 'user_app:register' %}">
+        <button class="try-btn">Start Free Trial</button>
+    </a>
+
+    <div class="trial-cta">
+        <p>Already have an account? <a href="{% url 'user_app:login' %}">Log in here</a> to continue your learning.</p>
+    </div>
+</div>
+
+<style>
+    .try-free-container {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px;
+        text-align: center;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+    p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+    .trial-benefits {
+        text-align: left;
+        margin: 20px auto;
+        max-width: 600px;
+    }
+    .benefit-item {
+        background: #E6F7EA;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+    h3 {
+        font-size: 24px;
+        margin-top: 30px;
+    }
+    h4 {
+        font-size: 20px;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    ul {
+        text-align: left;
+        max-width: 600px;
+        margin: 20px auto;
+        font-size: 16px;
+    }
+    ul li {
+        margin-bottom: 10px;
+    }
+    .try-btn {
+        padding: 12px 25px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #224F34;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .try-btn:hover {
+        background: #1B3D28;
+    }
+    .trial-cta {
+        margin-top: 20px;
+        font-size: 16px;
+    }
+    .trial-cta a {
+        color: #224F34;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .trial-cta a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

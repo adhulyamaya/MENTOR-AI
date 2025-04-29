@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Profile | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold" style="font-size: 2.5rem; color:white;">
+            <i class="ri-user-line"></i> Hello, {{ user.first_name }}!
+        </h2>
+        <p class="text-dark" style="font-size: 1.1rem;">Here’s your complete profile overview</p>
+    </div>
+
+    <!-- Profile Table Card -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow border-0 rounded-4 p-4" style="background-color: #f8f9fa;">
+                <h4 class="mb-4 fw-bold" style="color: #6BC785; border-bottom: 2px solid #6BC785; padding-bottom: 10px;">
+                    <i class="ri-information-line"></i> Profile Information
+                </h4>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <tbody>
+                            <tr>
+                                <th><i class="ri-user-line me-2"></i>Full Name</th>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-user-settings-line me-2"></i>Username</th>
+                                <td>{{ user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-mail-line me-2"></i>Email</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-phone-line me-2"></i>Phone</th>
+                                <td>{{ user.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-vip-crown-line me-2"></i>Membership Type</th>
+                                <td>{{ user.membership_type|default:"Free" }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-search-line me-2"></i>Recent Searches</th>
+                                <td>
+                                    {% if user.recent_searches %}
+                                        {{ user.recent_searches|join:", " }}
+                                    {% else %}
+                                        <em class="text-muted">None</em>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-calendar-line me-2"></i>Registered On</th>
+                                <td>{{ user.registration_date|date:"M d, Y H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="ri-login-box-line me-2"></i>Last Login</th>
+                                <td>{{ user.last_login|date:"M d, Y H:i" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-4 text-center">
+                    <a href="{% url 'user_app:edit_profile' %}" class="btn me-2" style="background-color: #6BC785; color: white;">
+                        <i class="ri-edit-box-line"></i> Edit Profile
+                    </a>
+                    <a href="{% url 'user_app:user_dashboard' %}" class="btn btn-outline-success" style="border-color: #6BC785; color: #6BC785;">
+                        <i class="ri-dashboard-line"></i> Go to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

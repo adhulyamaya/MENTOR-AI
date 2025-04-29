@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Dashboard | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Welcome, {{ first_name }}!</h2>
+        <p class="text-muted">Your personalized AI learning dashboard</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- User Profile -->
+        <div class="col-md-6">
+            <a href="{% url 'user_app:user_profile' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #6BC785, #3A9D5D);">
+                    <div class="card-body text-center p-5">
+                        <i class="ri-user-line display-4"></i>
+                        <h5 class="fw-bold mt-3">User Profile</h5>
+                        <p>View and edit your profile details.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Go to Payment -->
+        <div class="col-md-6">
+
+            <a href="{% url 'payment_app:payment' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #FF6B6B, #C62E2E);">
+                    <div class="card-body text-center p-5">
+                        <i class="ri-wallet-line display-4"></i>
+                        <h5 class="fw-bold mt-3">Go to Payment</h5>
+                        <p>Manage your payments and subscriptions.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Search -->
+        <div class="col-md-6">
+            <a href="{% url 'media_handling_app:search' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #FFA500, #E06C00);">
+                    <div class="card-body text-center p-5">
+                        <i class="ri-search-line display-4"></i>
+                        <h5 class="fw-bold mt-3">Search</h5>
+                        <p>Find the content you want to learn.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Settings -->
+        <div class="col-md-6">
+            <a href="{% url 'user_app:settings' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #6A82FB, #4855A8);">
+                    <div class="card-body text-center p-5">
+                        <i class="ri-settings-3-line display-4"></i>
+                        <h5 class="fw-bold mt-3">Settings</h5>
+                        <p>Customize your preferences and security.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

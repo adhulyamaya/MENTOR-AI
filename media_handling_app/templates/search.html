@@ -1,0 +1,170 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Try for Free | AI-Powered Learning" %}{% endblock %}
+
+{% block extra_head %}
+<!-- Add this inside your <head> section in base.html or here -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/p5.js"></script> <!-- For Avatar Lip Syncing -->
+{% endblock %}
+
+{% block content %}
+<div class="profile_container d-flex flex-column align-items-center py-5" style="border-radius: 20px; background-color: rgb(77, 157, 100);">
+    <h2>
+        {% blocktranslate %}Welcome, {{ first_name }}!{% endblocktranslate %}
+    </h2>
+
+    <div class="profile_holder container">
+        <div class="row align-items-center">
+
+           <!-- Avatar Section -->
+                <div class="avatar_holder col-md-6 d-flex flex-column justify-content-center align-items-center text-white p-5 rounded-start">
+                    <!-- Render video player if avatar_video_url exists -->
+                    {% if avatar_video_url %}
+                        <video id="avatar" width="300" controls>
+                            <source src="{{ avatar_video_url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+
+                    <video id="avatar" class="img-fluid rounded-circle mb-5" width="150" autoplay muted loop playsinline>
+                        <source src="{% static 'images/preview_video_target.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% endif %}
+                    
+                    <h4 class="fw-bold">Jex</h4>
+                    <p class="text-muted">{% trans "AI Learner | Enthusiast" %}</p>
+                </div>
+
+            <!-- Search & Result Section -->
+            <div class="profile_holder-right col-md-6 text-white p-5 rounded-end">
+                <form method="POST" action="{% url 'media_handling_app:search' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input 
+                            type="text" 
+                            id="topic" 
+                            name="topic" 
+                            placeholder="{% trans 'What do you want to learn?' %}" 
+                            class="form-control p-3" 
+                            required
+                        >
+                    </div>
+                    <div class="mb-3">
+                       <select id="language" name="language" class="form-select p-3 select2-language">
+                       
+                                 <option value="ar" data-flag="🇸🇦">{% trans "Arabic" %}</option>
+                                 <option value="bn" data-flag="🇧🇩">{% trans "Bengali" %}</option>
+                                 <option value="de" data-flag="🇩🇪">{% trans "German" %}</option>
+                                 <option value="en" data-flag="🇬🇧">{% trans "English" %}</option>
+                                 <option value="es" data-flag="🇪🇸">{% trans "Spanish" %}</option>
+                                 <option value="fr" data-flag="🇫🇷">{% trans "French" %}</option>
+                                 <option value="gu" data-flag="🇮🇳">{% trans "Gujarati" %}</option>
+                                 <option value="hi" data-flag="🇮🇳">{% trans "Hindi" %}</option>
+                                 <option value="it" data-flag="🇮🇹">{% trans "Italian" %}</option>
+                                 <option value="ja" data-flag="🇯🇵">{% trans "Japanese" %}</option>
+                                 <option value="ko" data-flag="🇰🇷">{% trans "Korean" %}</option>
+                                 <option value="ml" data-flag="🇮🇳">{% trans "Malayalam" %}</option>
+                                 <option value="mr" data-flag="🇮🇳">{% trans "Marathi" %}</option>
+                                 <option value="pa" data-flag="🇮🇳">{% trans "Punjabi" %}</option>
+                                 <option value="pt" data-flag="🇵🇹">{% trans "Portuguese" %}</option>
+                                 <option value="ru" data-flag="🇷🇺">{% trans "Russian" %}</option>
+                                 <option value="ta" data-flag="🇮🇳">{% trans "Tamil" %}</option>
+                                 <option value="te" data-flag="🇮🇳">{% trans "Telugu" %}</option>
+                                 <option value="tr" data-flag="🇹🇷">{% trans "Turkish" %}</option>
+                                 <option value="ur" data-flag="🇵🇰">{% trans "Urdu" %}</option>
+                                 <option value="vi" data-flag="🇻🇳">{% trans "Vietnamese" %}</option>
+                                 <option value="zh" data-flag="🇨🇳">{% trans "Chinese" %}</option>
+                             </select>
+                        
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="btn w-100 py-3 fw-semibold rounded-lg text-white" 
+                        style="background-color: #6BC785;">
+                        <i class="ri-search-line"></i> {% trans "Search" %}
+                    </button>
+                </form>
+
+                {% if explanation %}
+                    <div id="result" class="mt-4 text-dark">
+                        <h5><strong>{% trans "Explanation:" %}</strong></h5>
+                        <p>{{ explanation }}</p>
+                        {% if audio_url %}
+                        <audio id="audio" controls autoplay class="mt-3">
+                            <source src="{{ audio_url }}" type="audio/mpeg">
+                            {% trans "Your browser does not support the audio element." %}
+                        </audio>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Avatar Lip Syncing (Advanced Version) -->
+                    <div id="avatarLipSync">
+                        <script>
+                            var audio = document.getElementById('audio');
+                            audio.addEventListener('play', function () {
+                                syncAvatarWithAudio();
+                            });
+
+                            function syncAvatarWithAudio() {
+                                var avatar = document.getElementById('avatar');
+                                var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                                var analyser = audioContext.createAnalyser();
+                                var source = audioContext.createMediaElementSource(audio);
+                                source.connect(analyser);
+                                analyser.connect(audioContext.destination);
+                                
+                                var bufferLength = analyser.frequencyBinCount;
+                                var dataArray = new Uint8Array(bufferLength);
+
+                                function animate() {
+                                    analyser.getByteFrequencyData(dataArray);
+                                    var averageFrequency = 0;
+
+                                    for (var i = 0; i < bufferLength; i++) {
+                                        averageFrequency += dataArray[i];
+                                    }
+
+                                    averageFrequency /= bufferLength;
+                                    if (averageFrequency > 100) {
+                                        avatar.style.transform = 'scale(1.1)'; 
+                                    } else {
+                                        avatar.style.transform = 'scale(1)';  
+                                    }
+
+                                    requestAnimationFrame(animate);
+                                }
+
+                                animate();  
+                            }
+                        </script>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2-language').select2({
+            templateResult: formatLanguage,
+            templateSelection: formatLanguage,
+            minimumResultsForSearch: Infinity 
+        });
+
+        function formatLanguage(lang) {
+            if (!lang.id) { return lang.text; }
+            var flag = $(lang.element).data('flag');
+            return $('<span>' + flag + ' ' + lang.text + '</span>');
+        }
+    });
+</script>
+{% endblock %}

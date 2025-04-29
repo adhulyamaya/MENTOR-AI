@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Settings | AI-Powered Learning{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-teal-800">System Settings</h2>
+        <p class="text-muted">Manage your membership, privacy, and transactions</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Membership -->
+        <div class="col-md-6">
+            <div class="card h-100 text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #4FD1C5, #2C7A7B);">
+                <div class="card-body text-center p-5">
+                    <i class="ri-vip-crown-line display-4"></i>
+                    <h5 class="fw-bold mt-3">Membership</h5>
+                    <p class="mb-3">
+                        Current plan:
+                        <strong>{{ user.membership_type|default:"Free" }}</strong>
+                    </p>
+                    {% if user.membership_type != "Premium" %}
+                        <a href="{% url 'payment_app:payment' %}" class="btn btn-light text-teal-800 fw-bold">
+                            <i class="ri-wallet-line me-1"></i> Upgrade to Premium
+                        </a>
+                    {% else %}
+                        <button class="btn btn-light text-muted fw-bold" disabled>
+                            <i class="ri-check-line me-1"></i> Premium Member
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div class="col-md-6">
+            <div class="card h-100 text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #667EEA, #764BA2);">
+                <div class="card-body text-center p-5">
+                    <i class="ri-shield-user-line display-4"></i>
+                    <h5 class="fw-bold mt-3">Privacy Policy</h5>
+                    <p>
+                        Please review our
+                        <a href="{% url 'user_app:privacy_policy' %}" class="text-white fw-bold text-decoration-underline">Privacy Policy</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment History -->
+        <div class="col-md-12">
+            <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #F6AD55, #DD6B20);">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="ri-file-list-3-line display-4"></i>
+                        <h5 class="fw-bold mt-3">Payment History</h5>
+                    </div>
+                    <ul class="list-group list-group-flush bg-transparent">
+                        {% for payment in user.payments.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center bg-white rounded mb-2">
+                                <div>
+                                    <strong class="text-teal-700">{{ payment.payment_date|date:"M d, Y" }}</strong>
+                                    <p class="mb-0 text-muted">₹{{ payment.amount }} ({{ payment.status }})</p>
+                                </div>
+                                <span class="badge bg-teal-700 text-white">{{ payment.method|capfirst }}</span>
+                            </li>
+                        {% empty %}
+                            <li class="text-center text-white mt-3">No payments made yet.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <!-- Go to Dashboard -->
+        <div class="col-md-6">
+            <a href="{% url 'user_app:user_dashboard' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #319795, #285E61);">
+                    <div class="card-body text-center p-4">
+                        <i class="ri-dashboard-line display-5"></i>
+                        <h5 class="fw-bold mt-3">Go to Dashboard</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Logout -->
+        <div class="col-md-6">
+            <a href="{% url 'user_app:logout' %}" class="card-link text-decoration-none">
+                <div class="card text-white shadow-lg rounded-4 border-0" style="background: linear-gradient(135deg, #F56565, #C53030);">
+                    <div class="card-body text-center p-4">
+                        <i class="ri-logout-box-line display-5"></i>
+                        <h5 class="fw-bold mt-3">Logout</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
