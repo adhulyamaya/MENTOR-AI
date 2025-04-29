@@ -146,7 +146,7 @@ def search(request):
     logger.debug(f"Request method: {request.method}")
     logger.debug(f"Request POST data: {request.POST}")
 
-    context = {} 
+    context = {}
 
     user_id = request.session.get('user_id')
     if user_id:
@@ -158,9 +158,11 @@ def search(request):
     else:
         context['first_name'] = "Guest"
 
+    # Set a default language in case it's not provided
+    language = 'en'  # Default language
     if request.method == "POST":
         prompt = request.POST.get('topic')
-        language = request.POST.get('language', 'en')
+        language = request.POST.get('language', 'en')  # Default to 'en' if not provided
 
         logger.debug(f"Received search request with prompt: {prompt} in language: {language}")
 
@@ -194,26 +196,30 @@ def search(request):
                 tts.save(audio_file)
 
                 avatar_video_url = create_talking_avatar("static/images/images.jpeg", audio_file)
-                
+
                 # Decrease the number of attempts left for the user
                 user.attempt -= 1
                 user.save()
+
+                # Add remaining attempts to the context
+                context['remaining_prompts'] = user.attempt
 
                 context['explanation'] = generated_text
                 context['audio_url'] = f'/{audio_file}'
                 context['avatar_video_url'] = avatar_video_url if avatar_video_url else None
                 context['topic'] = prompt
-                context['remaining_prompts'] = user.attempt
             else:
-                # If no attempts left, inform the user
+                # If no attempts left, inform the user and prompt for upgrade
                 logger.warning(f"User {user.username} has no attempts left.")
                 context['error'] = "You have run out of prompts. Please upgrade your plan."
+                context['remaining_prompts'] = 0  # Show 0 remaining attempts
 
         else:
             logger.warning("No prompt provided.")
             context['error'] = 'Please provide a valid prompt.'
 
     return render(request, 'search.html', context)
+
 
 # def search(request):
 #     logger.debug(f"Request method: {request.method}")
